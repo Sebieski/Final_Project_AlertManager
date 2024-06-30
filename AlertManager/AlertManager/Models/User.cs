@@ -9,6 +9,7 @@ namespace AlertManager.Models
         [Required]
         public string UserName { get; private set; }
         [Required]
+        [EmailAddress]
         public string Email { get; private set; }
         [Required]
         public string PasswordHash { get; private set; }
