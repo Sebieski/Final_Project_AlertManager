@@ -21,7 +21,8 @@ namespace AlertManager.DTO
         public decimal AmountBase { get; set; }
 
         [Required]
-        [RegularExpression(@"^\d+\.\d{4}$", ErrorMessage = "Format kursu X.XXXX.")]
+        [Range(3.0000, 5.9999, ErrorMessage = "Wartość musi być z przedziału od 3.0000 do 5.9999.")]
+        //[RegularExpression(@"^\d{1}\.\d{4}$", ErrorMessage = "Format kursu X.XXXX.")]
         public decimal Rate { get; set; }
     }
 }
