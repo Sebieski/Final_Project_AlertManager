@@ -65,9 +65,19 @@ namespace AlertManager
             builder.Services.AddScoped<IRepository<Client>, ClientRepository>();
             builder.Services.AddScoped<ClientsAlertsRepository>();
             builder.Services.AddScoped<UserRepository>();
-            
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.WithOrigins("http://localhost:5173")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
 
             var app = builder.Build();
+
+            app.UseCors("CorsPolicy");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
