@@ -7,6 +7,9 @@ import {NavLink} from "react-router-dom";
 
 const Dashboard = ({token, userId}) => {
     const [clients, setClients] = useState([]);
+    const [alerts, setAlerts] = useState([]);
+
+
     const decodedToken = parseJwt(token);
     const username = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
 
@@ -25,6 +28,18 @@ const Dashboard = ({token, userId}) => {
             .catch(err => console.error("Błąd pobierania danych:", err));
     }, []);
 
+    useEffect(() =>{
+        fetch(`https://localhost:7249/api/ClientsAlerts/user/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'accept': '*!/!*'
+            }
+        })
+            .then(res => res.json())
+            .then(data => setAlerts(data))
+            .catch(err => console.error("Błąd pobierania danych:", err));
+    }, []);
+
     return (
         <div className="container">
             <h2>Witaj w Alert Manager!</h2>
@@ -34,8 +49,13 @@ const Dashboard = ({token, userId}) => {
                 </div>
                 <div className="username-box">
                     Masz przypisanych klientów: {clients.length}.
-                    {" "}
+                    {"   "}
                     <NavLink to="/portfolio">Idź do twoich klientów</NavLink>
+                </div>
+                <div className="username-box">
+                    Masz aktywnych alertów: {alerts.length}.
+                    {"   "}
+                    <NavLink to="/alerts">Idź aktywnych alertów twoich klientów</NavLink>
                 </div>
             </div>
         </div>

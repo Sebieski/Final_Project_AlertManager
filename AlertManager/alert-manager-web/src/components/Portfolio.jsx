@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 const Portfolio = ({userId, token}) => {
     const [data, setData] = useState(null);
     const [filteredData, setFilteredData] = useState(null);
-    const [capitalGroup, setCapitalGroup] = useState(null);
+    const [capitalGroup, setCapitalGroup] = useState("");
     const [capitalGroups, setCapitalGroups] = useState([]);
-    const [chosenExposure, setChosenExposure] = useState(null);
+    const [chosenExposure, setChosenExposure] = useState("");
     const [exposures, setExposures] = useState([]);
 
 

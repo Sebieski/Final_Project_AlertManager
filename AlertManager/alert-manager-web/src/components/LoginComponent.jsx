@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {parseJwt} from "../utils/commonFunctions.jsx";
 
 
 const LoginComponent = ({ setUserId, setToken }) => {
@@ -37,15 +38,9 @@ const LoginComponent = ({ setUserId, setToken }) => {
             setUserId(userId);
             setToken(token);
         } catch (error) {
-            setError('Invalid username or password');
+            setError('Błędna nazwa użytkownika lub hasło');
             console.error('Login failed:', error);
         }
-    };
-
-    const parseJwt = (token) => {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        return JSON.parse(window.atob(base64));
     };
 
     return (
