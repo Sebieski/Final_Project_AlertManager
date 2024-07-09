@@ -1,4 +1,5 @@
 ﻿using AlertManager.DAL;
+using AlertManager.DTO;
 using AlertManager.Models;
 using Dapper;
 using static Dapper.SqlMapper;
@@ -24,8 +25,8 @@ namespace AlertManager.Repositories
 
         public async Task<int> AddAsync(Client client)
         {
-            var sql = "INSERT INTO Clients (ClientName, CapitalGroup, Exposure, UserId, Alerts) " +
-                      "VALUES (@ClientName, @CapitalGroup, @Exposure, @UserId, @Alerts); " +
+            var sql = "INSERT INTO Clients (client_name, capital_group, exposure, user_id) " +
+                      "VALUES (@ClientName, @CapitalGroup, @Exposure, @UserId); " +
                       "SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using (var connection = _context.CreateConnection())
@@ -39,14 +40,14 @@ namespace AlertManager.Repositories
         {
             using (var connection = _context.CreateConnection())
             {
-                return await connection.QuerySingleOrDefaultAsync<Client>("SELECT * FROM Clients WHERE ClientId = @Id", new { id });
+                return await connection.QuerySingleOrDefaultAsync<Client>("SELECT * FROM Clients WHERE client_id = @Id", new { id });
             }
         }
 
         public async Task<bool> UpdateAsync(Client client)
         {
-            //brak możliwości zmiany nazwy czy grupy kapitałowej klienta, możliwa zmiana przypisanego Dealera lub danych dotyczących ekspozycji na ryzyko walutowe (= zmiana profilu działalności spółki lub sezonowość w biznesie)
-            var sql = "UPDATE Clients SET Exposure = @Exposure, UserId = @UserId WHERE ClientId = @ClientId";
+            //updatable fields: associated Dealer (UserId) and exposure (possible change in business model). Not updatable: Name and Capital Group.
+            var sql = "UPDATE Clients SET exposure = @Exposure, user_id = @UserId WHERE client_id = @ClientId";
             using (var connection = _context.CreateConnection())
             {
                 var affectedRows = await connection.ExecuteAsync(sql, client);
@@ -58,7 +59,7 @@ namespace AlertManager.Repositories
         {
             using (var connection = _context.CreateConnection())
             {
-                var affectedRows = await connection.ExecuteAsync("DELETE FROM Clients WHERE ClientId = @Id", new { id });
+                var affectedRows = await connection.ExecuteAsync("DELETE FROM Clients WHERE client_id = @Id", new { id });
                 return affectedRows > 0;
             }
         }

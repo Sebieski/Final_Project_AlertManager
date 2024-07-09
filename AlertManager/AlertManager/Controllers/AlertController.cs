@@ -1,14 +1,15 @@
 ﻿using AlertManager.DTO;
 using AlertManager.Models;
 using AlertManager.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace AlertManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AlertController : ControllerBase
     {
         private readonly IRepository<Alert> _repository;
@@ -35,7 +36,7 @@ namespace AlertManager.Controllers
             }
             return Ok(alert);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> AddAlert([FromBody] AlertDto alert)
         {
@@ -67,7 +68,6 @@ namespace AlertManager.Controllers
             }
             return Ok(result);
         }
-
         
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlert(int id)
@@ -77,7 +77,6 @@ namespace AlertManager.Controllers
             {
                 return NotFound();
             }
-
             return Ok($"Alert {id} deleted.");
         }
     }

@@ -1,6 +1,7 @@
 ﻿using AlertManager.DTO;
 using AlertManager.Models;
 using AlertManager.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -8,6 +9,7 @@ namespace AlertManager.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         private readonly IRepository<Client> _repository;

@@ -1,11 +1,13 @@
 ﻿using AlertManager.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
 namespace AlertManager.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController] 
+    [Authorize]
     public class ClientsAlertsController : ControllerBase
     {
         private readonly ClientsAlertsRepository _repository;
@@ -23,7 +25,7 @@ namespace AlertManager.Controllers
             return Ok(records);
         }
 
-        [HttpGet("/alert/{id}")]
+        [HttpGet("alert/{id}")]
         public async Task<IActionResult> GetRecordByAlertId(int id)
         {
             var record = await _repository.GetClientAlertByAlertId(id);
@@ -34,7 +36,7 @@ namespace AlertManager.Controllers
             return Ok(record);
         }
 
-        [HttpGet("/client/{id}")]
+        [HttpGet("client/{id}")]
         public async Task<IActionResult> GetRecordsByClientId(int id)
         {
             var records = await _repository.GetClientAlertByClientId(id);
@@ -45,7 +47,7 @@ namespace AlertManager.Controllers
             return Ok(records);
         }
 
-        [HttpGet("/user/{id}")]
+        [HttpGet("user/{id}")]
         public async Task<IActionResult> GetRecordsByUserId(int id)
         {
             var records = await _repository.GetClientAlertByUserId(id);

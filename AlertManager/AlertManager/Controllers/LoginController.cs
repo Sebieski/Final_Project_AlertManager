@@ -27,13 +27,8 @@ namespace AlertManager.Controllers
         [HttpPost]
         public async Task<ActionResult> Login([FromBody] UserLoginDto userLogin)
         {
-            var mapUser = new LoginModel()
-            {
-                Username = userLogin.Username,
-                Password = userLogin.Password,
-            };
+            var user = await Authenticate(userLogin.Username, userLogin.Password);
 
-            var user = await Authenticate(mapUser);
             if (user != null)
             {
                 var token = GenerateToken(user);
@@ -49,7 +44,8 @@ namespace AlertManager.Controllers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Username),
+                new Claim(ClaimTypes.NameIdentifier,user.UserId.ToString()),
+                new Claim(ClaimTypes.Name,user.Username),
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
@@ -57,23 +53,22 @@ namespace AlertManager.Controllers
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: credentials);
 
-
             return new JwtSecurityTokenHandler().WriteToken(token);
-
         }
 
         //To authenticate user
-        private async Task<LoginModel> Authenticate(LoginModel userLogin)
+        private async Task<LoginModel> Authenticate(string username, string password)
         {
             var users = await _userRepository.GetAllAsync();
-            var currentUser = users.FirstOrDefault(x => x.Name.ToLower() ==
-                userLogin.Username.ToLower() && x.Password == userLogin.Password);
-            if (currentUser != null)
+            var currentUser = users.FirstOrDefault(x => x.Name.ToLower() == username.ToLower());
+
+            if (currentUser != null && currentUser.VerifyPassword(password))
             {
                 return new LoginModel()
                 {
+                    UserId = currentUser.UserId,
                     Username = currentUser.Name,
-                    Password = currentUser.Password,
+                    Email = currentUser.Email
                 };
             }
             return null;

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using BCrypt.Net;
 
 namespace AlertManager.Models
 {
@@ -6,12 +8,21 @@ namespace AlertManager.Models
     {
 
         public int UserId { get; }
-        [Required]
-        public string UserName { get; private set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; private set; }
-        [Required]
-        public string PasswordHash { get; private set; }
+
+        public string Name { get;  set; }
+       
+        public string Email { get;  set; }
+    
+        public string Password { get; set; }
+
+        public void SetPassword(string plainTextPassword)
+        {
+            Password = BCrypt.Net.BCrypt.HashPassword(plainTextPassword);
+        }
+
+        public bool VerifyPassword(string plainTextPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(plainTextPassword, Password);
+        }
     }
 }

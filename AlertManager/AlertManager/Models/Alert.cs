@@ -11,11 +11,16 @@ namespace AlertManager.Models
         [MaxLength(7)]
         public string CurrencyPair { get; set; }
         [Required]
-        [MaxLength(50)]
+        [MaxLength(4)]
         public string Direction { get; set; }
         [Required]
         public decimal AmountBase { get; set; }
         [Required]
         public decimal Rate { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Direction} {AmountBase} {CurrencyPair} at {Rate.ToString("F4")}";
+        }
     }
 }

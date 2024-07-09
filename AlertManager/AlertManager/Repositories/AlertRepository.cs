@@ -23,7 +23,7 @@ namespace AlertManager.Repositories
 
         public async Task<int> AddAsync(Alert alert)
         {
-            var sql = "INSERT INTO Alerts (ClientId, CurrencyPair, Direction, AmountBase, Rate) " +
+            var sql = "INSERT INTO Alerts (client_id, currency_pair, direction, amount_base, rate) " +
                       "VALUES (@ClientId, @CurrencyPair, @Direction, @AmountBase, @Rate); " +
                       "SELECT CAST(SCOPE_IDENTITY() as int);";
 
@@ -34,25 +34,34 @@ namespace AlertManager.Repositories
             }
         }
 
+        /*public async Task<IEnumerable<Alert>> GetByUserIdAsync(int id)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                return await connection.QueryAsync<Alert>("SELECT alert_id, a.client_id, client_name, currency_pair, direction, amount_base, rate FROM Alerts a " +
+                                                          "JOIN Clients c ON a.client_id = c.client_id WHERE c.user_id = @Id", new { id });
+            }
+        }*/
+
         public async Task<Alert> GetByIdAsync(int id)
         {
             using (var connection = _context.CreateConnection())
             {
-                return await connection.QuerySingleOrDefaultAsync<Alert>("SELECT * FROM Alerts WHERE AlertId = @Id", new { id });
+                return await connection.QuerySingleOrDefaultAsync<Alert>("SELECT * FROM Alerts WHERE alert_id = @Id", new { id });
             }
         }
 
         public async Task<bool> UpdateAsync(Alert alert)
         {
-            //Brak potrzeby implementacji - update dokonywany przez usuwanie zbędnych alertów i dodawanie nowych
-            return true;
+            //No need to implement at this stage. Alert update manageable by delete of an outstanding alert & replacing it with a new one
+            return false;
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
             using (var connection = _context.CreateConnection())
             {
-                var affectedRows = await connection.ExecuteAsync("DELETE FROM Alerts WHERE AlertId = @Id", new { id });
+                var affectedRows = await connection.ExecuteAsync("DELETE FROM Alerts WHERE alert_id = @Id", new { id });
                 return affectedRows > 0;
             }
         }

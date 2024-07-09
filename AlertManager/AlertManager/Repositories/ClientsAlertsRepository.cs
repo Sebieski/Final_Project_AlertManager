@@ -43,5 +43,6 @@ namespace AlertManager.Repositories
                 return await connection.QueryAsync<ClientAlert>("SELECT * FROM ClientsAlerts WHERE user_id = @Id", new { id });
             }
         }
+        
     }
 }
