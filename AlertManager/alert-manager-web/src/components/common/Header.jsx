@@ -19,7 +19,7 @@ const Header = ({setToken}) => {
 
     return (
         <nav>
-            <h1>Alert Manager v. 1.0!</h1>
+            <h1>Alert Manager v. 1.0</h1>
             <ul>
                 <li><NavLink to="/" style={({ isActive }) => isActive ? activeStyle : undefined}>Strona główna</NavLink></li>
                 <li><NavLink to="/portfolio" style={({ isActive }) => isActive ? activeStyle : undefined}>Twoi klienci</NavLink></li>

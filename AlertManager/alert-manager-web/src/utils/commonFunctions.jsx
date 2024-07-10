@@ -10,3 +10,8 @@ export const formatNumber = (number) => {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     return parts.join(".");
 };
+
+export const isValidRate = (value) => {
+    const num = parseFloat(value);
+    return !isNaN(num) && value.includes('.') && value.split('.')[1].length <= 4;
+};

@@ -9,6 +9,7 @@ import {useState} from "react";
 import LoginComponent from "./components/LoginComponent.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import ActiveAlerts from "./components/ActiveAlerts.jsx";
+import AddAlert from "./components/AddAlert.jsx";
 
 function App() {
     const [userId, setUserId] = useState(null);
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/portfolio" element={token? <Portfolio token = {token} userId = {userId} /> : <Navigate to="/" />} />
                 <Route path="/fxrates" element={token ? <FXRates /> : <Navigate to="/" />} />
                 <Route path="/alerts" element={token ? <ActiveAlerts token={token} userId={userId}/> : <Navigate to="/" />} />
+                <Route path="/addalert" element={token ? <AddAlert token={token} userId={userId}/> : <Navigate to="/" />} />
             </Routes>
             <Footer />
         </BrowserRouter>

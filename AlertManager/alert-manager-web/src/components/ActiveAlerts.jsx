@@ -12,6 +12,7 @@ const ActiveAlerts = ({userId, token}) => {
     const [availableCurrencyPairs, setAvailableCurrencyPairs] = useState([]);
     const [chosenDirection, setChosenDirection] = useState("");
     const [availableDirections, setAvailableDirections] = useState([]);
+
     const [currentEURPLN, setCurrentEURPLN] = useState("");
     const [currentUSDPLN, setCurrentUSDPLN] = useState("");
 
