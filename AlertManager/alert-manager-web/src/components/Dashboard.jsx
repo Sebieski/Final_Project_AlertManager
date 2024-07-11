@@ -1,43 +1,24 @@
 import PropTypes from "prop-types";
-import {parseJwt} from "../utils/commonFunctions.jsx";
+import { parseJwt } from "../utils/commonFunctions.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/Dashboard.css";
-import {useEffect, useState} from "react";
-import {NavLink} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { getAlertsForUser, getClients } from "../api/API.jsx";
 
 const Dashboard = ({token, userId}) => {
-    const [clients, setClients] = useState([]);
+    const [data, setData] = useState([]);
     const [alerts, setAlerts] = useState([]);
-
 
     const decodedToken = parseJwt(token);
     const username = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
 
     useEffect(() =>{
-        fetch("https://localhost:7249/api/Client", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*'
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                const dataForUser = data.filter((item) => item.userId === userId)
-                setClients(dataForUser);
-            })
-            .catch(err => console.error("Błąd pobierania danych:", err));
+        getClients(token, userId, setData, null, null, null, null);
     }, []);
 
     useEffect(() =>{
-        fetch(`https://localhost:7249/api/ClientsAlerts/user/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*'
-            }
-        })
-            .then(res => res.json())
-            .then(data => setAlerts(data))
-            .catch(err => console.error("Błąd pobierania danych:", err));
+        getAlertsForUser(token, userId, setAlerts, null, null, null, null);
     }, []);
 
     return (
@@ -45,10 +26,10 @@ const Dashboard = ({token, userId}) => {
             <h2>Witaj w Alert Manager!</h2>
             <div className="d-flex flex-column align-items-start">
                 <div className="username-box">
-                    Jesteś zalogowany jako {username}.
+                    Jesteś zalogowany jako <strong>{username}</strong>.
                 </div>
                 <div className="username-box">
-                    Masz przypisanych klientów: {clients.length}.
+                    Masz przypisanych klientów: {data.length}.
                     {"   "}
                     <NavLink to="/portfolio">Idź do twoich klientów</NavLink>
                 </div>

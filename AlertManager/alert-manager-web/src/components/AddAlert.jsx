@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from 'react';
-import {isValidRate} from "../utils/commonFunctions.jsx";
+import {addAlert, getClients, getRates} from "../api/API.jsx";
 
 const AddAlert = ({userId, token}) => {
     const [clients, setClients] = useState([]);
@@ -14,41 +14,20 @@ const AddAlert = ({userId, token}) => {
     const [currentEURPLN, setCurrentEURPLN] = useState("");
     const [currentUSDPLN, setCurrentUSDPLN] = useState("");
 
-    const API = "http://api.nbp.pl/api/exchangerates/tables/A?format=json";
+    const clearFields = () => {
+        setChosenClient("");
+        setChosenCurrencyPair("");
+        setChosenDirection("");
+        setChosenAmountBase("");
+        setChosenRate("");
+    }
 
     useEffect(() =>{
-        fetch("https://localhost:7249/api/Client", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*'
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                const dataForUser = data.filter((item) => item.userId === userId)
-                const clientsData = dataForUser.map((item) => ({
-                    clientId: item.clientId,
-                    clientName: item.clientName
-                }));
-                setClients(clientsData);
-            })
-            .catch(err => console.error("Błąd pobierania danych:", err));
+        getClients(token, userId, null, null, null, null, setClients)
     }, [userId, token]);
 
     useEffect(() => {
-        fetch(API)
-            .then(response => response.json())
-            .then(data => {
-                const rates = data[0].rates;
-                const eurRate = rates.find(rate => rate.code === 'EUR').mid.toFixed(4);
-                const usdRate = rates.find(rate => rate.code === 'USD').mid.toFixed(4);
-
-                setCurrentEURPLN(eurRate);
-                setCurrentUSDPLN(usdRate);
-            })
-            .catch(err => {
-                console.error("Błąd pobierania danych:", err);
-            });
+        getRates(null, setCurrentEURPLN, setCurrentUSDPLN);
     }, []);
 
     useEffect(() => {
@@ -92,34 +71,10 @@ const AddAlert = ({userId, token}) => {
             amountBase: chosenAmountBase,
             rate: chosenRate
         }
-        console.log(newAlert);
-        fetch("https://localhost:7249/api/Alert", {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*',
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newAlert)
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error("Błąd dodawania alertu!");
-                }
-                clearFields();
-                setAlertAdded(true);
-                console.log("Dodano alert!");
-            })
-            .catch(err => console.error("Błąd dodania alertu!", err));
+
+        addAlert(token, newAlert, clearFields, setAlertAdded)
     }
 
-    const clearFields = () => {
-        setChosenClient("");
-        setChosenCurrencyPair("");
-        setChosenDirection("");
-        setChosenAmountBase("");
-        setChosenRate("");
-    }
 
     return(
         <>

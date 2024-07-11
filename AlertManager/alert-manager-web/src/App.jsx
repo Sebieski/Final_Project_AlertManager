@@ -14,7 +14,6 @@ import AddAlert from "./components/AddAlert.jsx";
 function App() {
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
-    console.log(token);
 
   return (
     <>

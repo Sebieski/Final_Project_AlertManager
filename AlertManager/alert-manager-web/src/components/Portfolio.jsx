@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import {getClientsForPortfolio} from "../api/API.jsx";
 
 const Portfolio = ({userId, token}) => {
     const [data, setData] = useState(null);
@@ -11,23 +12,7 @@ const Portfolio = ({userId, token}) => {
 
 
     useEffect(() =>{
-        fetch("https://localhost:7249/api/Client", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*'
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                const dataForUser = data.filter((item) => item.userId === userId)
-                setData(dataForUser);
-                const groups = Array.from(new Set(dataForUser.map((item) => item.capitalGroup)));
-                setCapitalGroups(groups);
-                const exposures = Array.from(new Set(dataForUser.map((item) => item.exposure)));
-                setExposures(exposures);
-                setFilteredData(dataForUser);
-            })
-            .catch(err => console.error("Błąd pobierania danych:", err));
+        getClientsForPortfolio(token, userId, setData, setCapitalGroups, setExposures, setFilteredData);
     }, [userId, token]);
 
     const handleGroupChange = (e) => {

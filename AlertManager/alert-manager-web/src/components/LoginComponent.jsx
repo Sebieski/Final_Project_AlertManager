@@ -1,33 +1,14 @@
 import { useState } from 'react';
 import PropTypes from "prop-types";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {parseJwt} from "../utils/commonFunctions.jsx";
+import { parseJwt } from "../utils/commonFunctions.jsx";
+import { login } from "../api/API.jsx";
 
 
 const LoginComponent = ({ setUserId, setToken }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const login = async (username, password) => {
-        const response = await fetch('https://localhost:7249/api/Login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: password
-            }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Login failed');
-        }
-
-        return response.text();
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -1,18 +1,11 @@
 import {useEffect, useState} from "react";
+import {getRates} from "../api/API.jsx";
 
 const FXRates = () => {
     const [currentRates, setCurrentRates] = useState(null);
-    const API = "http://api.nbp.pl/api/exchangerates/tables/A?format=json";
 
     useEffect(() => {
-        fetch(API)
-            .then(response => response.json())
-            .then(data => {
-                setCurrentRates(data[0]);
-            })
-            .catch(err => {
-            console.error("Błąd pobierania danych:", err);
-        });
+        getRates(setCurrentRates, null, null);
     }, []);
 
     if (currentRates === null) {

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
 import {formatNumber} from "../utils/commonFunctions.jsx";
-import {deleteAlert} from "../api/API.jsx";
+import {deleteAlert, getAlertsForUser, getRates} from "../api/API.jsx";
 
 const ActiveAlerts = ({userId, token}) => {
     const [alerts, setAlerts] = useState([])
@@ -16,46 +16,16 @@ const ActiveAlerts = ({userId, token}) => {
     const [currentEURPLN, setCurrentEURPLN] = useState("");
     const [currentUSDPLN, setCurrentUSDPLN] = useState("");
 
-    const API = "http://api.nbp.pl/api/exchangerates/tables/A?format=json";
+
 
     useEffect(() =>{
-        fetch(`https://localhost:7249/api/ClientsAlerts/user/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'accept': '*!/!*'
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                setAlerts(data);
-                const clients = Array.from(new Set(data.map((item) => item.clientName)));
-                setAvailableClients(clients);
-                const currencyPairs = Array.from(new Set(data.map((item) => item.currencyPair)));
-                setAvailableCurrencyPairs(currencyPairs);
-                const directions = Array.from(new Set(data.map((item) => item.direction)));
-                setAvailableDirections(directions);
-                setFilteredAlerts(data);
-            })
-            .catch(err => console.error("Błąd pobierania danych:", err));
+        getAlertsForUser(token, userId, setAlerts, setAvailableClients, setAvailableCurrencyPairs, setAvailableDirections, setFilteredAlerts)
     }, [userId, token]);
 
 
-
     useEffect(() => {
-        fetch(API)
-            .then(response => response.json())
-            .then(data => {
-                const rates = data[0].rates;
-                const eurRate = rates.find(rate => rate.code === 'EUR').mid.toFixed(4);
-                const usdRate = rates.find(rate => rate.code === 'USD').mid.toFixed(4);
-
-                setCurrentEURPLN(eurRate);
-                setCurrentUSDPLN(usdRate);
-            })
-            .catch(err => {
-                console.error("Błąd pobierania danych:", err);
-            });
-    }, []);
+        getRates(null, setCurrentEURPLN, setCurrentUSDPLN);
+        }, []);
 
 
     const handleClientChange = (e) => {
