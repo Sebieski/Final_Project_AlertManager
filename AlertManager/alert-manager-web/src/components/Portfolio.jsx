@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
-import {getClientsForPortfolio} from "../api/API.jsx";
+import {getClients} from "../api/API.jsx";
 
 const Portfolio = ({userId, token}) => {
     const [data, setData] = useState(null);
@@ -12,7 +12,7 @@ const Portfolio = ({userId, token}) => {
 
 
     useEffect(() =>{
-        getClientsForPortfolio(token, userId, setData, setCapitalGroups, setExposures, setFilteredData);
+        getClients(token, userId, setData, setCapitalGroups, setExposures, setFilteredData, null);
     }, [userId, token]);
 
     const handleGroupChange = (e) => {

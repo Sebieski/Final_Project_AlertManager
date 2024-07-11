@@ -77,8 +77,8 @@ const AddAlert = ({userId, token}) => {
 
 
     return(
-        <>
-            <h3 className="mb-4">Dodaj nowy alert:</h3>
+        <div className="container mt-5">
+            <h3 className="mb-4 text-center">Dodaj nowy alert:</h3>
             {alertAdded && (
                 <div className="alert alert-success" role="alert">
                     Dodano alert! <span role="img" aria-label="checked-tick">✅</span>
@@ -136,7 +136,7 @@ const AddAlert = ({userId, token}) => {
                     <strong>Proszę wypełnić wszystkie wymagane pola!</strong>
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

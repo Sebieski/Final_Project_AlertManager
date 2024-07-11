@@ -102,11 +102,13 @@ export const getClients = (token, userId, setData, setCapitalGroups, setExposure
                 setClients(clientsData);
             } else {
                 setData(dataForUser);
-                const groups = Array.from(new Set(dataForUser.map((item) => item.capitalGroup)));
-                setCapitalGroups(groups);
-                const exposures = Array.from(new Set(dataForUser.map((item) => item.exposure)));
-                setExposures(exposures);
-                setFilteredData(dataForUser);
+                if (setCapitalGroups && setExposures && setFilteredData) {
+                    const groups = Array.from(new Set(dataForUser.map((item) => item.capitalGroup)));
+                    setCapitalGroups(groups);
+                    const exposures = Array.from(new Set(dataForUser.map((item) => item.exposure)));
+                    setExposures(exposures);
+                    setFilteredData(dataForUser);
+                }
             }
         })
         .catch(err => console.error("Błąd pobierania danych:", err));
@@ -124,8 +126,10 @@ export const getRates = (setCurrentRates, setCurrentEURPLN, setCurrentUSDPLN) =>
             if (setCurrentRates === null){
                 setCurrentEURPLN(eurRate);
                 setCurrentUSDPLN(usdRate);
+            } else {
+                setCurrentRates(data[0]);
             }
-            setCurrentRates(data[0]);
+
         })
         .catch(err => {
             console.error("Błąd pobierania danych:", err);
