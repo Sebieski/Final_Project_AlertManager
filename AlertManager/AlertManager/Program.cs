@@ -1,5 +1,5 @@
 using AlertManager.DAL;
-using AlertManager.Models;
+using AlertManager.BusinessLogic.Models;
 using AlertManager.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

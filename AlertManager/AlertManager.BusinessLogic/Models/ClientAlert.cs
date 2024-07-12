@@ -1,12 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlertManager.Models
+namespace AlertManager.BusinessLogic.Models
 {
-    public class Alert
+    public class ClientAlert
     {
+        public int ClientId { get; }
+        [Required]
+        public string ClientName { get; set; }
+        public string? CapitalGroup { get; set; }
+        public string? Exposure { get; set; }
+        public int UserId { get; set; }
         public int AlertId { get; set; }
-        public int ClientId { get; set; }
         [Required]
         [MaxLength(7)]
         public string CurrencyPair { get; set; }
@@ -17,10 +21,5 @@ namespace AlertManager.Models
         public decimal AmountBase { get; set; }
         [Required]
         public decimal Rate { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Direction} {AmountBase} {CurrencyPair} at {Rate.ToString("F4")}";
-        }
     }
 }

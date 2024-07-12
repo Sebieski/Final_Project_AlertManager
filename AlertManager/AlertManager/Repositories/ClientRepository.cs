@@ -1,6 +1,6 @@
-﻿using AlertManager.DAL;
+﻿using AlertManager.BusinessLogic.Models;
+using AlertManager.DAL;
 using AlertManager.DTO;
-using AlertManager.Models;
 using Dapper;
 using static Dapper.SqlMapper;
 

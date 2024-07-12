@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlertManager.Models
+namespace AlertManager.BusinessLogic.Models
 {
     public class Client
     {

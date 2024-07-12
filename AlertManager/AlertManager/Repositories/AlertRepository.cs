@@ -1,5 +1,5 @@
-﻿using AlertManager.DAL;
-using AlertManager.Models;
+﻿using AlertManager.BusinessLogic.Models;
+using AlertManager.DAL;
 using Dapper;
 
 namespace AlertManager.Repositories

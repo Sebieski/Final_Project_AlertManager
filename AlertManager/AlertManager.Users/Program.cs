@@ -1,4 +1,4 @@
-﻿using AlertManager.Models;
+﻿using AlertManager.BusinessLogic.Models;
 using Microsoft.Data.SqlClient;
 
 namespace AlertManager.Users

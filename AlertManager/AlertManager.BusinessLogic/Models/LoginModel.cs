@@ -1,4 +1,4 @@
-﻿namespace AlertManager.Models
+﻿namespace AlertManager.BusinessLogic.Models
 {
     public class LoginModel
     {

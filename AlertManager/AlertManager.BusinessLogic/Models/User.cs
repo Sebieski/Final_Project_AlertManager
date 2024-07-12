@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using BCrypt.Net;
 
-namespace AlertManager.Models
+namespace AlertManager.BusinessLogic.Models
 {
     public class User
     {
