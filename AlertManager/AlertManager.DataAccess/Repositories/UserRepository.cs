@@ -2,7 +2,7 @@
 using AlertManager.DataAccess.DAL;
 using Dapper;
 
-namespace AlertManager.Repositories
+namespace AlertManager.DataAccess.Repositories
 {
     public class UserRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace AlertManager.Repositories
+﻿namespace AlertManager.DataAccess.Repositories
 {
     public interface IRepository<T> where T : class
     {

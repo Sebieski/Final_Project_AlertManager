@@ -1,4 +1,4 @@
-﻿using AlertManager.Repositories;
+﻿using AlertManager.DataAccess.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

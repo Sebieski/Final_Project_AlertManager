@@ -6,8 +6,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AlertManager.BusinessLogic.Models;
+using AlertManager.DataAccess.Repositories;
 using AlertManager.DTO;
-using AlertManager.Repositories;
 
 namespace AlertManager.Controllers
 {

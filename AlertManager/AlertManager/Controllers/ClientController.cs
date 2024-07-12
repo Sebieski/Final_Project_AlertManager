@@ -1,6 +1,6 @@
 ﻿using AlertManager.BusinessLogic.Models;
+using AlertManager.DataAccess.Repositories;
 using AlertManager.DTO;
-using AlertManager.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
