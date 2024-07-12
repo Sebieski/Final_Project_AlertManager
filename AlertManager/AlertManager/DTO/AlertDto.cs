@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AlertManager.DTO
+namespace AlertManager.WebAPI.DTO
 {
     public class AlertDto
     {

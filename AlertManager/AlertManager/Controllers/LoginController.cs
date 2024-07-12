@@ -7,9 +7,10 @@ using System.Security.Claims;
 using System.Text;
 using AlertManager.BusinessLogic.Models;
 using AlertManager.DataAccess.Repositories;
-using AlertManager.DTO;
+using AlertManager.Services;
+using AlertManager.WebAPI.DTO;
 
-namespace AlertManager.Controllers
+namespace AlertManager.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,10 +18,12 @@ namespace AlertManager.Controllers
     {
         private readonly IConfiguration _config;
         private readonly UserRepository _userRepository;
-        public LoginController(IConfiguration config, UserRepository userRepository)
+        private readonly IUserPasswordService _userPasswordService;
+        public LoginController(IConfiguration config, UserRepository userRepository, IUserPasswordService userPasswordService)
         {
             _config = config;
             _userRepository = userRepository;
+            _userPasswordService = userPasswordService;
         }
 
         [AllowAnonymous]
@@ -62,7 +65,7 @@ namespace AlertManager.Controllers
             var users = await _userRepository.GetAllAsync();
             var currentUser = users.FirstOrDefault(x => x.Name.ToLower() == username.ToLower());
 
-            if (currentUser != null && currentUser.VerifyPassword(password))
+            if (currentUser != null && _userPasswordService.VerifyPassword(currentUser, password))
             {
                 return new LoginModel()
                 {

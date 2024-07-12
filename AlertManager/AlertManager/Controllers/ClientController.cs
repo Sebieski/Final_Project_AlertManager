@@ -1,11 +1,11 @@
 ﻿using AlertManager.BusinessLogic.Models;
 using AlertManager.DataAccess.Repositories;
-using AlertManager.DTO;
+using AlertManager.WebAPI.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace AlertManager.Controllers
+namespace AlertManager.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

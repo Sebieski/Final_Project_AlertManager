@@ -1,6 +1,6 @@
 ﻿using AlertManager.BusinessLogic.Models;
 
-namespace AlertManager.DTO
+namespace AlertManager.WebAPI.DTO
 {
     public class ClientDto
     {

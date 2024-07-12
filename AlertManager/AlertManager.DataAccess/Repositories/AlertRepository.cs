@@ -34,15 +34,6 @@ namespace AlertManager.DataAccess.Repositories
             }
         }
 
-        /*public async Task<IEnumerable<Alert>> GetByUserIdAsync(int id)
-        {
-            using (var connection = _context.CreateConnection())
-            {
-                return await connection.QueryAsync<Alert>("SELECT alert_id, a.client_id, client_name, currency_pair, direction, amount_base, rate FROM Alerts a " +
-                                                          "JOIN Clients c ON a.client_id = c.client_id WHERE c.user_id = @Id", new { id });
-            }
-        }*/
-
         public async Task<Alert> GetByIdAsync(int id)
         {
             using (var connection = _context.CreateConnection())

@@ -4,9 +4,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AlertManager.DataAccess.DAL;
 using AlertManager.DataAccess.Repositories;
+using AlertManager.Services;
 using Microsoft.OpenApi.Models;
 
-namespace AlertManager
+namespace AlertManager.WebAPI
 {
     public class Program
     {
@@ -63,6 +64,7 @@ namespace AlertManager
             builder.Services.AddSingleton<IDapperContext, DapperContext>();
             builder.Services.AddScoped<IRepository<Alert>, AlertRepository>();
             builder.Services.AddScoped<IRepository<Client>, ClientRepository>();
+            builder.Services.AddScoped<IUserPasswordService, UserPasswordService>();
             builder.Services.AddScoped<ClientsAlertsRepository>();
             builder.Services.AddScoped<UserRepository>();
 
@@ -96,4 +98,5 @@ namespace AlertManager
             app.Run();
         }
     }
+
 }

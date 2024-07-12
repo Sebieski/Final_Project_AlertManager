@@ -1,4 +1,4 @@
-﻿namespace AlertManager.DTO
+﻿namespace AlertManager.WebAPI.DTO
 {
     public class UserLoginDto
     {
