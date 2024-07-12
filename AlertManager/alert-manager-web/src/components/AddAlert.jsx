@@ -4,11 +4,11 @@ import {addAlert, getClients, getRates} from "../api/API.jsx";
 
 const AddAlert = ({userId, token}) => {
     const [clients, setClients] = useState([]);
-    const [chosenClient, setChosenClient] = useState(null);
-    const [chosenCurrencyPair, setChosenCurrencyPair] = useState(null);
-    const [chosenDirection, setChosenDirection] = useState(null);
-    const [chosenAmountBase, setChosenAmountBase] = useState(null);
-    const [chosenRate, setChosenRate] = useState(null);
+    const [chosenClient, setChosenClient] = useState("");
+    const [chosenCurrencyPair, setChosenCurrencyPair] = useState("");
+    const [chosenDirection, setChosenDirection] = useState("");
+    const [chosenAmountBase, setChosenAmountBase] = useState("");
+    const [chosenRate, setChosenRate] = useState("");
     const [alertAdded, setAlertAdded] = useState("");
 
     const [currentEURPLN, setCurrentEURPLN] = useState("");
