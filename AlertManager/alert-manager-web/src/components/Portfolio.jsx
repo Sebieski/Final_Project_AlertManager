@@ -15,26 +15,25 @@ const Portfolio = ({userId, token}) => {
         getClients(token, userId, setData, setCapitalGroups, setExposures, setFilteredData, null);
     }, [userId, token]);
 
-    const handleGroupChange = (e) => {
-        const group = e.target.value;
-        setCapitalGroup(group);
-        if (group === "") {
-            setFilteredData(data);
-        } else {
-            const filtered = data.filter((item) => item.capitalGroup === group);
-            setFilteredData(filtered);
-        }
-    };
+    useEffect(() => {
+        filterData();
+    }, [capitalGroup, chosenExposure, data]);
 
-    const handleExposureChange = (e) => {
-        const exposure = e.target.value;
-        setChosenExposure(exposure);
-        if (exposure === "") {
-            setFilteredData(data);
-        } else {
-            const filtered = data.filter((item) => item.exposure === exposure);
-            setFilteredData(filtered);
+
+    const filterData = () => {
+        if (!data) return;
+
+        let filtered = data;
+
+        if (capitalGroup) {
+            filtered = filtered.filter((item) => item.capitalGroup === capitalGroup);
         }
+
+        if (chosenExposure) {
+            filtered = filtered.filter((item) => item.exposure === chosenExposure);
+        }
+
+        setFilteredData(filtered);
     };
 
     return (
@@ -48,7 +47,7 @@ const Portfolio = ({userId, token}) => {
                     id="capitalGroupSelect"
                     className="form-select"
                     value={capitalGroup}
-                    onChange={handleGroupChange}
+                    onChange={(e) => setCapitalGroup(e.target.value)}
                 >
                     <option value="">Wybierz grupę kapitałową...</option>
                     {capitalGroups.map((group) => (
@@ -66,7 +65,7 @@ const Portfolio = ({userId, token}) => {
                     id="exposureSelect"
                     className="form-select"
                     value={chosenExposure}
-                    onChange={handleExposureChange}
+                    onChange={(e) => setChosenExposure(e.target.value)}
                 >
                     <option value="">Wybierz ekspozycję klienta...</option>
                     {exposures.map((item) => (

@@ -27,39 +27,28 @@ const ActiveAlerts = ({userId, token}) => {
         getRates(null, setCurrentEURPLN, setCurrentUSDPLN);
         }, []);
 
+    useEffect(() => {
+        filterAlerts();
+    }, [chosenClient, chosenCurrencyPair, chosenDirection, alerts]);
 
-    const handleClientChange = (e) => {
-        const client = e.target.value;
-        setChosenClient(client);
-        if (client === "") {
-            setFilteredAlerts(alerts);
-        } else {
-            const filtered = alerts.filter((item) => item.clientName === client);
-            setFilteredAlerts(filtered);
+    const filterAlerts = () => {
+        let filtered = alerts;
+
+        if (chosenClient) {
+            filtered = filtered.filter((item) => item.clientName === chosenClient);
         }
+
+        if (chosenCurrencyPair) {
+            filtered = filtered.filter((item) => item.currencyPair === chosenCurrencyPair);
+        }
+
+        if (chosenDirection) {
+            filtered = filtered.filter((item) => item.direction === chosenDirection);
+        }
+
+        setFilteredAlerts(filtered);
     };
 
-    const handleCurrencyPairChange = (e) => {
-        const currencyPair = e.target.value;
-        setChosenCurrencyPair(currencyPair);
-        if (currencyPair === "") {
-            setFilteredAlerts(alerts);
-        } else {
-            const filtered = alerts.filter((item) => item.currencyPair === currencyPair);
-            setFilteredAlerts(filtered);
-        }
-    };
-
-    const handleDirectionChange = (e) => {
-        const direction = e.target.value;
-        setChosenDirection(direction);
-        if (direction === "") {
-            setFilteredAlerts(alerts);
-        } else {
-            const filtered = alerts.filter((item) => item.direction === direction);
-            setFilteredAlerts(filtered);
-        }
-    };
 
     const handleCallClient = (name) =>{
         console.log(`Dzwonię do klienta ${name}... `)
@@ -77,7 +66,7 @@ const ActiveAlerts = ({userId, token}) => {
                     id="clientSelect"
                     className="form-select"
                     value={chosenClient}
-                    onChange={handleClientChange}
+                    onChange={(e) => setChosenClient(e.target.value)}
                 >
                     <option value="">Wszyscy klienci...</option>
                     {availableClients.map((client, index) => (
@@ -95,7 +84,7 @@ const ActiveAlerts = ({userId, token}) => {
                     id="currencyPairSelect"
                     className="form-select"
                     value={chosenCurrencyPair}
-                    onChange={handleCurrencyPairChange}
+                    onChange={(e) => setChosenCurrencyPair(e.target.value)}
                 >
                     <option value="">Wszystkie pary walutowe...</option>
                     {availableCurrencyPairs.map((pair, index) => (
@@ -113,7 +102,7 @@ const ActiveAlerts = ({userId, token}) => {
                     id="directionSelect"
                     className="form-select"
                     value={chosenDirection}
-                    onChange={handleDirectionChange}
+                    onChange={(e) => setChosenDirection(e.target.value)}
                 >
                     <option value="">Wszystkie kierunki...</option>
                     {availableDirections.map((direction, index) => (
