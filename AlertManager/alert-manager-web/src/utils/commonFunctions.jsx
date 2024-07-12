@@ -11,7 +11,4 @@ export const formatNumber = (number) => {
     return parts.join(".");
 };
 
-export const isValidRate = (value) => {
-    const num = parseFloat(value);
-    return !isNaN(num) && value.includes('.') && value.split('.')[1].length <= 4;
-};
+

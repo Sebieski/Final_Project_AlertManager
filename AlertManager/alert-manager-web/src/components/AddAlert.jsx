@@ -9,7 +9,7 @@ const AddAlert = ({userId, token}) => {
     const [chosenDirection, setChosenDirection] = useState("");
     const [chosenAmountBase, setChosenAmountBase] = useState("");
     const [chosenRate, setChosenRate] = useState("");
-    const [alertAdded, setAlertAdded] = useState("");
+    const [alertAdded, setAlertAdded] = useState(null);
 
     const [currentEURPLN, setCurrentEURPLN] = useState("");
     const [currentUSDPLN, setCurrentUSDPLN] = useState("");
@@ -32,7 +32,7 @@ const AddAlert = ({userId, token}) => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setAlertAdded(false);
+            setAlertAdded(null);
         }, 3000); // Ukryj komunikat po 3 sekundach
 
         return () => clearTimeout(timer);
@@ -45,15 +45,22 @@ const AddAlert = ({userId, token}) => {
         }
     };
 
-    //walidacja blokuje możliwość wpisywania w polu Rate
-    /*const handleRateChange = (e) => {
-        setChosenRate(e.target.value)
-        /!*let value = e.target.value;
-        if (isValidRate(value)){
-            setChosenRate(value);
-        }  else {
-        console.error("Nieprawidłowy format kursu alertu!");*!/
-    }};*/
+    const handleRateChange = (e) => {
+        const value = e.target.value;
+        const validValue = value.replace(/[^0-9.]/g, '');
+        const dotCount = (validValue.match(/\./g) || []).length;
+        if (dotCount > 1) {
+            return;
+        }
+        const numValue = parseFloat(validValue);
+        if (validValue === "" || isNaN(numValue)) {
+            return;
+        } else if (numValue < 3.0000 || numValue > 5.9999) {
+            console.error("Wartość musi być z przedziału od 3.0000 do 5.9999");
+            return;
+        }
+        setChosenRate(validValue);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -61,6 +68,7 @@ const AddAlert = ({userId, token}) => {
         if (!chosenClient || !chosenCurrencyPair || !chosenDirection || !chosenAmountBase || !chosenRate) {
             console.error("Proszę wypełnić wszystkie wymagane pola!");
             setAlertAdded("error")
+            clearFields();
             return;
         }
 
@@ -72,14 +80,14 @@ const AddAlert = ({userId, token}) => {
             rate: chosenRate
         }
 
-        addAlert(token, newAlert, clearFields, setAlertAdded)
+        addAlert(token, newAlert, clearFields, setAlertAdded);
     }
 
 
     return(
         <div className="container mt-5">
             <h3 className="mb-4 text-center">Dodaj nowy alert:</h3>
-            {alertAdded && (
+            {alertAdded === "success" && (
                 <div className="alert alert-success" role="alert">
                     Dodano alert! <span role="img" aria-label="checked-tick">✅</span>
                 </div>
@@ -126,7 +134,7 @@ const AddAlert = ({userId, token}) => {
                 <div className="mb-3">
                     <label className="form-label">Kurs alertu:</label>
                     <input type="text" className="form-control" value={chosenRate}
-                           onChange={(e) => (setChosenRate(e.target.value))}/>
+                           onChange={handleRateChange}/>
                 </div>
                 <button type="submit" className="btn btn-success">Dodaj alert</button>
                 <button type="button" className="btn btn-danger" onClick={() => clearFields()}>Wyczyść pola</button>

@@ -58,7 +58,7 @@ export const addAlert = (token, newAlert, clearFields, setAlertAdded) => {
                 throw new Error("Błąd dodawania alertu!");
             }
             clearFields();
-            setAlertAdded(true);
+            setAlertAdded("success");
             console.log("Dodano alert!");
         })
         .catch(err => console.error("Błąd dodania alertu!", err));
