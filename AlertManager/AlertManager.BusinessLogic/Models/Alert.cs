@@ -18,9 +18,5 @@ namespace AlertManager.BusinessLogic.Models
         [Required]
         public decimal Rate { get; set; }
 
-        public override string ToString()
-        {
-            return $"{Direction} {AmountBase} {CurrencyPair} at {Rate.ToString("F4")}";
-        }
     }
 }

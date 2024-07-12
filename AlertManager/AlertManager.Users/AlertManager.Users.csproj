@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AlertManager.BusinessLogic\AlertManager.BusinessLogic.csproj" />
     <ProjectReference Include="..\AlertManager.DataAccess\AlertManager.DataAccess.csproj" />
-    <ProjectReference Include="..\AlertManager\AlertManager.csproj" />
+    <ProjectReference Include="..\AlertManager\AlertManager.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
