@@ -1,7 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
-namespace AlertManager.DAL
+namespace AlertManager.DataAccess.DAL
 {
     public class DapperContext : IDapperContext
     {

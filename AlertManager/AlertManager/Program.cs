@@ -1,9 +1,9 @@
-using AlertManager.DAL;
 using AlertManager.BusinessLogic.Models;
 using AlertManager.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AlertManager.DataAccess.DAL;
 using Microsoft.OpenApi.Models;
 
 namespace AlertManager

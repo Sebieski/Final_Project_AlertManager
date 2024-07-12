@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace AlertManager.DAL
+namespace AlertManager.DataAccess.DAL
 {
     public interface IDapperContext
     {

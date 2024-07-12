@@ -1,5 +1,5 @@
 ﻿using AlertManager.BusinessLogic.Models;
-using AlertManager.DAL;
+using AlertManager.DataAccess.DAL;
 using AlertManager.DTO;
 using Dapper;
 using static Dapper.SqlMapper;
